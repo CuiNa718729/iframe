@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>父页面</title>
+</head>
+<style>
+    body{
+        position: relative;
+    }
+    .modal{
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        width: 300px;
+        height: 200px;
+        text-align: center;
+        padding-top: 100px;
+        display: none;
+        background: rgba(0,0,0,.8);
+    }
+</style>
+<body>
+<iframe id="son" name="son" src="bbb.html" width="400" height="200"></iframe><br />
+<input type="button" value="给子页面表单中id为b的文本框赋值" onclick="fuzhi()" />
+<div id="messagediv">test</div>
+<div class="modal">
+    <button id="pay">去付款</button>
+</div>
+<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
+<script>
+    // 一、父页面给iframe中的子页面传值，把值写入子页面的文本框里
+    function fuzhi() {
+        $('#son').contents().find("#b").val("父页面传过来的值！");
+    }
+    $("#pay").click(function(){
+        fun();
+    })
+    function fun(data) {
+        $(".modal").css("display","block");
+        alert('这是父页面中的函数弹出窗口哦！');
+        var data={};
+        $.ajax({
+            type:"post",
+            url:"http://47.95.244.131:18625/Rankings/match",
+            cache:"false",
+            data:data,
+            success:function(data){
+                if(data.meta.code==0){
+                    console.log(data.data);
+                    var html="";
+                    for(var i=0;i<data.data.data.length;i++){
+                        var CountryName=data.data.data[i].CountryName;
+                        sessionStorage.setItem("CountryName",CountryName)
+                        html+=`
+                            <tr>
+                                <td>${data.data.data[i].CountryName}</td>
+                                <td>${data.data.data[i].CompetitionName}</td>
+                                <td>${data.data.data[i].SeasonName}</td>
+                                <td>${data.data.data[i].RoundName}</td>
+                                <td>${data.data.data[i].HomeTeamName}</td>
+                                <td>${data.data.data[i].AwayTeamName}</td>
+                                <td class="MatchID" style="display:none;">${data.data.data[i].MatchID}</td>
+                                <td class="TournamentID" style="display:none;">${data.data.data[i].TournamentID}</td>
+                                <td>
+                                   <button class="operation">详情</button>
+                                </td>
+                            </tr>
+                        `;
+                    }
+                    $("#targetTable tbody").html(html);
+                    //动态显示页码
+                    pageCount= data.data.pageCount;
+                }else{
+                    $("#targetTable tbody").html("");
+                    $('.pages').html("");
+                }
+            }
+        })
+    }
+
+</script>
+</body>
+</html>

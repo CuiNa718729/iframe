@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    body{
+        position: relative;
+    }
+    .modal{
+        display: none;
+        width: 500px;
+        height: 100px;
+        background: rgba(0,0,0,.8);
+    }
+    #pay{
+        width: 80px;
+        height: 35px;
+        background: #faf;
+        outline: none;
+        border: 0;
+        margin: 0 auto;
+    }
+</style>
+<body>
+<form>
+    <input type="text" name="b" id="bbb">
+    <button id="btn" onclick="f()">支付</button>
+    <div class="modal">
+        <button id="pay">马上支付</button>
+    </div>
+    <input type="button" name="btn" value="调用父函数并给父元素页面赋值">
+</form>
+<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
+<script>
+    function f(){
+        $(".modal").css("display","block");
+        alert("开始调用父页面函数");
+        $(window.parent.fun());
+        $(window.parent.$("#maindiv").html("子页面赋给父页面的值"));
+        $("#pay").click(function(){
+            alert("123");
+        })
+    }
+</script>
+</body>
+</html>

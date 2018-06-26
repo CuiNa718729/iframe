@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>子页面</title>
+</head>
+<body>
+<form name="form2"><input type="text" name="b" id="b" /></form>
+<form name="form2"><input name="btn1" type="button" onclick="diaoyong()" value="调用父页面中的函数 马上支付" /></form>
+<form name="form2"><input name="btn1" type="button" onclick="fuzhi()" value="给父页中id为messagediv的元素赋值" /></form>
+<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
+<script>
+    // 二、子页面如何调用父页面中的函数
+    function diaoyong() {
+        $(window.parent.fun());  //调用父页面函数
+        var CountryName=sessionStorage.getItem("CountryName")
+        console.log(CountryName);
+    }
+    // 三、iframe中的子页给父页面传值
+    function fuzhi() {
+        (window.parent.$("#messagediv").html("子页面赋过来的值"));
+    }
+</script>
+</body>
+</html>
